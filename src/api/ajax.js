@@ -1,6 +1,3 @@
-import axios  from 'axios'
-
-
 /**
 ajax 请求函数模块
 */

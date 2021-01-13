@@ -5,6 +5,8 @@ import ajax from './ajax'
 /**
  * 获取地址信息 ( 根据经纬度串 )
  */
+const Base_URL="api"
+
 export const reqAddress = geohash => ajax(`/api/position/${geohash}`)
 /**
  * 获取 msite 页面食品分类列表

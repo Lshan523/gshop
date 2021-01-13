@@ -1,15 +1,21 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <!--部分组件不需要显示-->
     <FooterGuide v-show="$route.meta.showFooter"/>
   </div>
 </template>
 
 <script>
   import FooterGuide from './components/FooterGuide/FooterGuide'
+  // import {reqCategorys} from './api'
   export default {
     name: 'App',
-    components:{FooterGuide}
+    components:{FooterGuide},
+   async mounted () {
+     // const result=await reqCategorys()
+     // console.log(result)
+    }
   }
 </script>
 
