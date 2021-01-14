@@ -2,46 +2,51 @@
   <div class="loginContainer">
     <div class="loginInner">
       <div class="login_header">
-        <h2 class="login_logo">小芳小卖部</h2>
+        <h2 class="login_logo">Sea Sea</h2>
         <div class="login_header_title">
-          <a href="javascript:;" class="on">短信登录</a>
-          <a href="javascript:;">密码登录</a>
+          <a href="javascript:;"  :class="{on: loginWay}"  @click="loginWay=true">短信登录</a>
+          <a href="javascript:;"  :class="{on: !loginWay}" @click="loginWay=false">密码登录</a>
         </div>
       </div>
       <div class="login_content">
         <form>
-          <div class="on">
+          <!--手机登录-->
+          <div :class="{on: loginWay}">
             <section class="login_message">
-              <input type="tel" maxlength="11" placeholder="手机号">
-              <button disabled="disabled" class="get_verification">获取验证码</button>
+              <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
+                <button  :class="{right_phone:is_right_phone}" :disabled="!is_right_phone"
+                         class="get_verification" @click.prevent="getSMSCode"> {{computeTime>0?`已发送(${computeTime}s)`:"获取验证码"}}</button>
             </section>
             <section class="login_verification">
-              <input type="tel" maxlength="8" placeholder="验证码">
+              <input type="tel" maxlength="8" placeholder="验证码" v-model="code">
             </section>
             <section class="login_hint">
               温馨提示：未注册小芳小卖部帐号的手机号，登录时将自动注册，且代表已同意
               <a href="javascript:;">《用户服务协议》</a>
             </section>
           </div>
-          <div>
+          <!--用户名密码登录-->
+          <div :class="{on: !loginWay}">
             <section>
               <section class="login_message">
-                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
+                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名" v-model="name">
               </section>
               <section class="login_verification">
-                <input type="tel" maxlength="8" placeholder="密码">
-                <div class="switch_button off">
-                  <div class="switch_circle"></div>
-                  <span class="switch_text">...</span>
+                <input v-show="show_pwd" type="text" maxlength="8" placeholder="密码" v-model="pwd">
+                <input type="password" maxlength="8" placeholder="密码" v-model="pwd">
+                <div class="switch_button" :class="show_pwd?'on':'off'"
+                     @click="show_pwd=!show_pwd">
+                  <div class="switch_circle" :class="{right:!show_pwd}"></div>
+                  <span class="switch_text">{{show_pwd?'abc':'...'}}</span>
                 </div>
               </section>
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码">
-                <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
+                <img class="get_verification" :src="valid_pic_url" @click="valid_pic_url=valid_pic_url+'?name=new Date()'" alt="captcha">
               </section>
             </section>
           </div>
-          <button class="login_submit">登录</button>
+          <button class="login_submit" @click="login">登录</button>
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
@@ -51,12 +56,102 @@
       </a>
 
     </div>
+
+    <AlertTip :alertText="alertText"  v-show="showAlert" @closeTip="closeTip"></AlertTip>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'Login'
+  import AlertTip  from '../../components/AlertTip/AlertTip'
+  import {mapActions} from "vuex"
+   export default {
+    name: 'Login',
+     components:{AlertTip},
+    data(){
+      return{
+        valid_pic_url:"http://localhost:4000/captcha",
+        computeTime:0,//倒计时时间
+        show_pwd:false,
+        loginWay:true,//true 短信登录  false密码登录
+        phone:"", //手机号
+        code:'',//短信验证码
+        pwd:'',//密码
+        validCodePucture:"",
+        name:'',//用户名
+        captcha:'',//验证吗
+        showAlert:false, //是否显示提示框
+        alertText:'',//提示文本
+      }
+    },
+     mounted () {
+
+     },
+     computed:{
+      is_right_phone(){ //验证手机号
+         return /^1\d{10}$/.test(this.phone)
+      }
+    },
+    methods:{
+      ...mapActions(['getSendCode','getValidCode']),
+      getSMSCode(){
+        //如果当前在计时，do nothing
+        if(this.computeTime>0){
+          return;
+        }
+        //启动倒计时
+        this.computeTime=60;
+      const intervalId= setInterval(()=>{
+          this.computeTime--;
+          if(this.computeTime<=0){
+            //停止计时
+              clearInterval(intervalId)
+          }
+        },1000)
+        //获取验证码
+        const  result =this.getSendCode(this.phone);
+        alert("1111")
+      },
+      showAlterTip(alertText){
+          this.showAlert=true;
+          this.alertText=alertText
+      },
+      closeTip(){
+        this.showAlert=false;
+        this.alertText=""
+      },
+      queryValidCode(){
+        alert("获取验证")
+       return  this.getValidCode()
+      },
+      login: function () {
+        //前台验证表单
+        if (this.loginWay)
+          {//短信登录
+            const {is_right_phone,phone,code}=this
+              if(!is_right_phone){
+                this.showAlterTip("手机号格式错误！")
+              }else if(!/^\d{6}$/.test(code)) {
+                this.showAlterTip("验证码不正确！")
+              }
+          }
+        else //密码登录
+          {
+            const {name,pwd,captcha}=this
+            if(!name){
+              this.showAlterTip("name can blank！")
+            }else if(!pwd) {
+              this.showAlterTip("pwd can be blank！")
+            }else if(!(captcha)) {
+              this.showAlterTip("验证码不正确！")
+            }
+
+
+
+
+          }
+
+      }
+    }
   }
 </script>
 
@@ -121,6 +216,8 @@
                 color #ccc
                 font-size 14px
                 background transparent
+                &.right_phone
+                    color black
             .login_verification
               position relative
               margin-top 16px
@@ -160,6 +257,8 @@
                   background #fff
                   box-shadow 0 2px 4px 0 rgba(0,0,0,.1)
                   transition transform .3s
+                  &.right
+                     transform translateX(26px)
             .login_hint
               margin-top 12px
               color #999

@@ -26,7 +26,7 @@
 
     <!--首页导航-->
     <nav class="msite_nav">
-      <div class="swiper-container">
+      <div v-if="categorys.length" class="swiper-container">
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(categorylist,index) in categorysArr" :key="index">
             <a href="javascript:" class="link_to_food" v-for="(category,index) in categorylist" :key="index">
@@ -97,6 +97,8 @@
                <!-- If we need scrollbar -->
                <!--<div class="swiper-scrollbar"></div>-->
       </div>
+      <!--数据加载前效果-->
+      <img v-else src="./images/msite_back.svg" alt="back">
     </nav>
 
 
@@ -131,7 +133,7 @@
         },
        computed:{
        //获取state数据
-         ...mapState(['address','categorys']),
+         ...mapState(['address','categorys','shops']),
          categorysArr(){
            return this.group(this.categorys,8)
          }
@@ -149,7 +151,7 @@
     watch:{
 
       categorysArr(value)
-      { //categorys数组有数据了,在异步执行更新接界面之后　//setTimeOut可以实现
+      { //categorys数组有数据了,在异步执行更新接界面之后　//setTimeOut可以实现(不灵活)
         //界面更新，立即创建swiper对象
         this.$nextTick(()=>{
             new Swiper('.swiper-container',{

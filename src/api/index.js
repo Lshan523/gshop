@@ -41,7 +41,10 @@ export const reqUser = () => ajax('/api/userinfo')
  * * 请求登出
  */
 export const reqLogout = () => ajax('/api/logout')
-
-
+/**
+ * 获取一次性验证码
+ */
+//http://localhost:3000/captcha
+export const reqValidCode=()=>ajax("/api/captcha")
 
 

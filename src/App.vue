@@ -16,9 +16,10 @@
       // this.$store.dispatch('getCategorys')
       this.getAddress();
       this.getCategorys();
+      this.getShops();
     },
     methods:{
-      ...mapActions(['getAddress','getCategorys'])
+      ...mapActions(['getAddress','getCategorys','getShops'])
     }
   }
 </script>

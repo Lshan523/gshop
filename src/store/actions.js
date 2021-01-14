@@ -10,10 +10,15 @@ import {
 import  {
   reqCategorys,
   reqAddress,
-  reqShops} from  '../api'
+  reqShops,
+  reqPwdLogin,
+  reqSendCode,
+  reqValidCode,
+  reqSmsLogin
+} from  '../api'
 export default {
-
-//异步获取地址
+  //################## Msite state ########################
+  //异步获取地址
    async getCategorys({commit}){
        //发送异步ajax请求
        const result =await reqCategorys()
@@ -36,7 +41,7 @@ export default {
    },
 
   //根据经纬度获取商家信息
-  async getshops({commit,state})
+  async getShops({commit,state})
   {
      const {longitude,latitude}=state
      const  result=await  reqShops(longitude,latitude)
@@ -44,5 +49,29 @@ export default {
        const  shops= result.data
        commit(RECEIVE_SHOPS,{shops})
      }
+  },
+
+  //################## search state ########################
+  //################## profile state ########################
+  //################## order state ########################
+
+  //################## login ##############################
+  // reqPwdLogin,
+  // reqSendCode,
+  // reqSmsLogin
+ async getSendCode({commit},phone) {
+   const result = await reqSendCode(phone)
+   if (result.code == 0) {
+     console.log("send sms code success!!!!")
+   }
+ },
+  async getValidCode(){
+     return  await reqValidCode()
+  },
+
+  async postPwdLogin({commit},data){
+     return  await reqPwdLogin(data.name, data.pwd, data.captcha)
   }
+
+
 }
