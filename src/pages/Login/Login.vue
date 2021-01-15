@@ -42,7 +42,7 @@
               </section>
               <section class="login_message">
                 <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
-                <img class="get_verification" :src="valid_pic_url" @click="valid_pic_url=valid_pic_url+'?name=new Date()'" alt="captcha">
+                <img class="get_verification" :src="valid_pic_url+'?time='+ valid_pic_url_param" @click="valid_pic_url_param=Date.now()" alt="captcha">
               </section>
             </section>
           </div>
@@ -64,12 +64,14 @@
 <script>
   import AlertTip  from '../../components/AlertTip/AlertTip'
   import {mapActions} from "vuex"
+  import {reqPwdLogin,reqSmsLogin} from '../../api'
    export default {
     name: 'Login',
      components:{AlertTip},
     data(){
       return{
         valid_pic_url:"http://localhost:4000/captcha",
+        valid_pic_url_param:'',
         computeTime:0,//倒计时时间
         show_pwd:false,
         loginWay:true,//true 短信登录  false密码登录
@@ -92,24 +94,24 @@
       }
     },
     methods:{
-      ...mapActions(['getSendCode','getValidCode']),
+      ...mapActions(['getSendCode']),
       getSMSCode(){
         //如果当前在计时，do nothing
         if(this.computeTime>0){
           return;
         }
         //启动倒计时
-        this.computeTime=60;
-      const intervalId= setInterval(()=>{
+        this.computeTime=30;
+       this.intervalId= setInterval(()=>{
           this.computeTime--;
           if(this.computeTime<=0){
             //停止计时
-              clearInterval(intervalId)
+              clearInterval(this.intervalId)
           }
         },1000)
         //获取验证码
         const  result =this.getSendCode(this.phone);
-        alert("1111")
+        console.log("获取验证码success")
       },
       showAlterTip(alertText){
           this.showAlert=true;
@@ -119,36 +121,62 @@
         this.showAlert=false;
         this.alertText=""
       },
-      queryValidCode(){
-        alert("获取验证")
-       return  this.getValidCode()
-      },
-      login: function () {
+
+     async login() {
+        let loginResult ={};
         //前台验证表单
         if (this.loginWay)
           {//短信登录
             const {is_right_phone,phone,code}=this
               if(!is_right_phone){
                 this.showAlterTip("手机号格式错误！")
+                return
               }else if(!/^\d{6}$/.test(code)) {
                 this.showAlterTip("验证码不正确！")
+                return
               }
+                //login
+                loginResult =await  reqSmsLogin(phone,code);
           }
         else //密码登录
           {
             const {name,pwd,captcha}=this
             if(!name){
               this.showAlterTip("name can blank！")
+              return
             }else if(!pwd) {
               this.showAlterTip("pwd can be blank！")
-            }else if(!(captcha)) {
+              return
+            }else if(!captcha) {
               this.showAlterTip("验证码不正确！")
+              return
             }
-
-
-
-
+              loginResult = await  reqPwdLogin(name,pwd,captcha)
           }
+          // ##########handler login result#######
+           if(loginResult.code==1){
+              //刷新验证码
+              this.valid_pic_url_param=Date.now()
+              this.showAlterTip(loginResult.msg)
+           }
+       if(loginResult.code==0)
+       {
+         //登录成功,跳转到 profile
+         //停止计时
+         if(this.computeTime>0)
+         {
+           this.computeTime=0;
+           clearInterval(this.intervalId)
+           this.intervalId=undefined
+         }
+         //将user 保存到vuex 的state
+         const userInfo=loginResult.data
+         this.$store.dispatch('recordUserInfo',userInfo)
+
+         this.showAlterTip("登录成功")
+         setTimeout(()=>{ this.$router.replace("/profile")},500)
+
+       }
 
       }
     }

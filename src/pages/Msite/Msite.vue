@@ -16,13 +16,20 @@
 
     <HeaderTop :title="address.name">
 
-            <span slot="left" class="header_search">
+            <router-link to="/search" slot="left" class="header_search">
               <i class="iconfont icon-sousuo"></i>
-            </span>
-      <span slot="right" class="header_login">
-                    <span class="header_login_text">登录|注册</span>
-            </span>
+            </router-link>
+             <router-link :to="userInfo._id ?'/userinfo':'/login'"  slot="right" class="header_login">
+                    <span v-if="!userInfo._id" class="header_login_text">{{userInfo._id || "登录/注册"}}</span>
+                    <span v-else class="header_login_text">
+                       <i class="iconfont icon-person"></i>
+                    </span>
+
+            </router-link>
     </HeaderTop>
+
+
+
 
     <!--首页导航-->
     <nav class="msite_nav">
@@ -119,7 +126,7 @@
   import Swiper from  "swiper";
   import 'swiper/dist/css/swiper.min.css';
   import HeaderTop from '../../components/HeaderTop/HeaderTop'
-  import {mapState} from 'vuex'
+  import {mapActions, mapState} from 'vuex'
   export default {
     name: 'Msite',
     components:{HeaderTop,ShopList},
@@ -129,16 +136,19 @@
       }
       },
       mounted(){
-
+        // this.$store.dispatch('getCategorys')
+        this.getCategorys();
+        this.getShops();
         },
        computed:{
        //获取state数据
-         ...mapState(['address','categorys','shops']),
+         ...mapState(['address','categorys','shops','userInfo']),
          categorysArr(){
            return this.group(this.categorys,8)
          }
        },
     methods:{
+      ...mapActions(['getCategorys','getShops']),
           group(array, subGroupLength) {
             let index = 0;
             let newArray = [];

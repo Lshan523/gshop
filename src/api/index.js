@@ -17,6 +17,15 @@ export const reqCategorys = () => ajax('/api/index_category')
  */
 export const reqShops = ({longitude,latitude}) => ajax('/api/shops', {latitude,
   longitude})
+
+/**
+ * 例子: http://localhost:3000/search_shops?keyword=test&geohash=40.10038,116.36867
+ * 搜索商铺
+ */
+export const reqSearchShop = (geohash,keyword) => ajax('/api/search_shops', {geohash,keyword})
+
+
+
 /**
  * 账号密码登录
  */
@@ -36,7 +45,7 @@ export const reqSmsLogin = (phone, code) => ajax('/api/login_sms', {phone, code}
 /**
  * 获取用户信息 ( 根据会话 )
  */
-export const reqUser = () => ajax('/api/userinfo')
+export const reqUserInfo = () => ajax('/api/userinfo')
 /**
  * * 请求登出
  */
@@ -44,7 +53,7 @@ export const reqLogout = () => ajax('/api/logout')
 /**
  * 获取一次性验证码
  */
-//http://localhost:3000/captcha
+//http://localhost:4000/captcha
 export const reqValidCode=()=>ajax("/api/captcha")
 
 

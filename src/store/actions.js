@@ -5,7 +5,8 @@
 import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
-  RECEIVE_SHOPS
+  RECEIVE_SHOPS,
+  RECEIVE_USER_INFO
 } from './mutation-type'
 import  {
   reqCategorys,
@@ -14,7 +15,8 @@ import  {
   reqPwdLogin,
   reqSendCode,
   reqValidCode,
-  reqSmsLogin
+  reqSmsLogin,
+  reqUserInfo,
 } from  '../api'
 export default {
   //################## Msite state ########################
@@ -69,9 +71,21 @@ export default {
      return  await reqValidCode()
   },
 
-  async postPwdLogin({commit},data){
+  async postPwdLogin(data){
      return  await reqPwdLogin(data.name, data.pwd, data.captcha)
+  },
+  async postSMSLogin(data){
+    return  await reqSmsLogin(data.phone, data.code)
+  },
+  recordUserInfo({commit},userInfo){
+    commit(RECEIVE_USER_INFO,{userInfo})
+  },
+  async getUserInfo({commit}){
+       const  result= await  reqUserInfo()
+       if(result.code==0){
+         const userInfo=result.data
+         commit(RECEIVE_USER_INFO,{userInfo})
+       }
   }
-
 
 }

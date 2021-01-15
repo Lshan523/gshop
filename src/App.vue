@@ -8,18 +8,17 @@
 
 <script>
   import FooterGuide from './components/FooterGuide/FooterGuide'
-  import  {mapActions} from 'vuex'
+  import {mapActions, mapState} from 'vuex'
   export default {
     name: 'App',
     components:{FooterGuide},
     mounted () {
       // this.$store.dispatch('getCategorys')
-      this.getAddress();
-      this.getCategorys();
-      this.getShops();
+            this.getAddress();
+            this.getUserInfo();
     },
     methods:{
-      ...mapActions(['getAddress','getCategorys','getShops'])
+      ...mapActions(['getAddress','getUserInfo'])
     }
   }
 </script>
