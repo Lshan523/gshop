@@ -21,10 +21,7 @@
             </router-link>
              <router-link :to="userInfo._id ?'/userinfo':'/login'"  slot="right" class="header_login">
                     <span v-if="!userInfo._id" class="header_login_text">{{userInfo._id || "登录/注册"}}</span>
-                    <span v-else class="header_login_text">
-                       <i class="iconfont icon-person"></i>
-                    </span>
-
+                    <span v-else class="header_login_text"><i class="iconfont icon-person"></i></span>
             </router-link>
     </HeaderTop>
 
