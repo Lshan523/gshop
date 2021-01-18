@@ -18,7 +18,7 @@
             this.getUserInfo();
     },
     methods:{
-      ...mapActions(['getAddress','getUserInfo'])
+      ...mapActions(['getAddress','getUserInfo',])
     }
   }
 </script>

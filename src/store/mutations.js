@@ -3,7 +3,7 @@
  */
 import {
   RECEIVE_ADDRESS,
-  RECEIVE_CATEGORYS,
+  RECEIVE_CATEGORYS, RECEIVE_SHOP_GOODS, RECEIVE_SHOP_INFO, RECEIVE_SHOP_RATINGS,
   RECEIVE_SHOPS,
   RECEIVE_USER_INFO,
 } from './mutation-type'
@@ -19,8 +19,18 @@ export default {
         state.shops=shops
       },
 
-  //################## search state ########################
+  //################## shop page ########################
 
+    [RECEIVE_SHOP_GOODS](state,{goods}){
+        state.shopGoods=goods;
+    },
+
+  [RECEIVE_SHOP_INFO](state,{info}){
+    state.shopInfo=info;
+  },
+  [RECEIVE_SHOP_RATINGS](state,{ratings}){
+    state.shopRatings=ratings;
+  },
 
   //################## profile state ########################
 

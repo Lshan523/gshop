@@ -56,4 +56,12 @@ export const reqLogout = () => ajax('/api/logout')
 //http://localhost:4000/captcha
 export const reqValidCode=()=>ajax("/api/captcha")
 
-
+//返回goods的接口
+// Mock.mock("goods",{code:0,data:data.goods})
+export  const  reqShopGoods=()=>ajax("shop_goods")
+//返回info的接口
+// Mock.mock("info",{code:0,data:data.info})
+export  const  reqShopInfos=()=>ajax("shop_info")
+//返回ratings的接口
+// Mock.mock("ratings",{code:0,data:data.ratings})
+export  const  reqShopRatings=()=>ajax("shop_ratings")

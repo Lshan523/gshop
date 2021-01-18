@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from  "./router"
 import store from './store'
-
+import  './mock/mockServer.js'  //加载mockServer 即可
 /**
  * 注册mint-ui,
  */

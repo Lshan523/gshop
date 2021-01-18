@@ -121,7 +121,7 @@
 </template>
 
 <script>
-  import { MessageBox } from 'mint-ui';
+  import { MessageBox,Toast } from 'mint-ui';
   import {reqLogout} from '../../api'
   import { mapActions,mapState} from 'vuex'
   import HeaderTop  from '../../components/HeaderTop/HeaderTop'
@@ -137,6 +137,7 @@
         //删除userinfo
         MessageBox.confirm('确定退出登录吗此?').then(action => {
           this.doLoginOut()
+          Toast('退出成功');
         });
       }
     }

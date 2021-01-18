@@ -6,9 +6,15 @@ import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
   RECEIVE_SHOPS,
-  RECEIVE_USER_INFO
+  RECEIVE_USER_INFO,
+  RECEIVE_SHOP_GOODS,
+  RECEIVE_SHOP_INFO,
+  RECEIVE_SHOP_RATINGS
 } from './mutation-type'
 import  {
+  reqShopGoods,
+  reqShopInfos,
+  reqShopRatings,
   reqCategorys,
   reqAddress,
   reqShops,
@@ -56,8 +62,28 @@ export default {
 
   //################## search state ########################
   //################## profile state ########################
-  //################## order state ########################
-
+  //################## shop page  ########################
+  async  get_shop_goods({commit}){
+    const result=await  reqShopGoods()
+    if(result.code==0){
+      const goods=result.data
+      commit(RECEIVE_SHOP_GOODS,{goods})
+    }
+   },
+  async  get_shop_info({commit}){
+    const result=await  reqShopInfos()
+    if(result.code==0){
+      const info=result.data
+      commit(RECEIVE_SHOP_INFO,{info})
+    }
+   },
+  async  get_shop_ratings({commit}){
+    const result=await  reqShopRatings()
+    if(result.code==0){
+      const ratings=result.data
+      commit(RECEIVE_SHOP_RATINGS,{ratings})
+    }
+   },
   //################## login ##############################
   // reqPwdLogin,
   // reqSendCode,
