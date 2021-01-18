@@ -113,17 +113,32 @@
         </div>
       </a>
     </section>
+
+    <section class="profile_my_order border-1px">
+      <mt-button v-if="userInfo._id" type="danger" style="width: 100%" @click="loginOut">退出登录</mt-button>
+    </section>
   </div>
 </template>
 
 <script>
-  import { mapState} from 'vuex'
+  import { MessageBox } from 'mint-ui';
+  import {reqLogout} from '../../api'
+  import { mapActions,mapState} from 'vuex'
   import HeaderTop  from '../../components/HeaderTop/HeaderTop'
   export default {
     name: 'Profile',
     components:{HeaderTop},
     computed:{
         ...mapState(['userInfo'])
+    },
+    methods:{
+      ...mapActions(['doLoginOut']),
+      loginOut(){
+        //删除userinfo
+        MessageBox.confirm('确定退出登录吗此?').then(action => {
+          this.doLoginOut()
+        });
+      }
     }
   }
 </script>

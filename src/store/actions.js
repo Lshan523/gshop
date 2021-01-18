@@ -17,6 +17,7 @@ import  {
   reqValidCode,
   reqSmsLogin,
   reqUserInfo,
+  reqLogout
 } from  '../api'
 export default {
   //################## Msite state ########################
@@ -86,6 +87,12 @@ export default {
          const userInfo=result.data
          commit(RECEIVE_USER_INFO,{userInfo})
        }
-  }
-
+  },
+  async doLoginOut({commit}){
+    const  result= await reqLogout()
+    if(result.code==0){
+     const userInfo={}
+      commit(RECEIVE_USER_INFO,{userInfo})
+    }
+    }
 }
