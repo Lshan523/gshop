@@ -9,7 +9,7 @@ import {
   RECEIVE_USER_INFO,
   RECEIVE_SHOP_GOODS,
   RECEIVE_SHOP_INFO,
-  RECEIVE_SHOP_RATINGS
+  RECEIVE_SHOP_RATINGS, INCREMENT_FOOD_COUNT, DECREMENT_FOOD_COUNT,
 } from './mutation-type'
 import  {
   reqShopGoods,
@@ -63,11 +63,13 @@ export default {
   //################## search state ########################
   //################## profile state ########################
   //################## shop page  ########################
-  async  get_shop_goods({commit}){
+  async  get_shop_goods({commit},callback){
     const result=await  reqShopGoods()
     if(result.code==0){
       const goods=result.data
       commit(RECEIVE_SHOP_GOODS,{goods})
+      //回调，通知组件，callback可传可不传
+      callback && callback()
     }
    },
   async  get_shop_info({commit}){
@@ -114,11 +116,22 @@ export default {
          commit(RECEIVE_USER_INFO,{userInfo})
        }
   },
-  async doLoginOut({commit}){
+  async doLoginOut({commit})
+  {
     const  result= await reqLogout()
     if(result.code==0){
      const userInfo={}
       commit(RECEIVE_USER_INFO,{userInfo})
     }
+  },
+  // #############cart control ##########
+  updateFoodCount({commit},{isAdd,food})
+  {
+    if(isAdd){
+      commit(INCREMENT_FOOD_COUNT,{food})
+    }else
+    {
+      commit(DECREMENT_FOOD_COUNT,{food})
     }
+  }
 }

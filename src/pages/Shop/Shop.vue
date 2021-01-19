@@ -26,7 +26,7 @@
     name: 'Shop',
     components:{ShopHeader},
     mounted () {
-      this.$store.dispatch("get_shop_goods")
+
       this.$store.dispatch("get_shop_info")
       this.$store.dispatch("get_shop_ratings")
     }
