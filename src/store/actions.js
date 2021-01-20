@@ -10,6 +10,7 @@ import {
   RECEIVE_SHOP_GOODS,
   RECEIVE_SHOP_INFO,
   RECEIVE_SHOP_RATINGS, INCREMENT_FOOD_COUNT, DECREMENT_FOOD_COUNT,
+  CLEAR_CART,
 } from './mutation-type'
 import  {
   reqShopGoods,
@@ -127,11 +128,17 @@ export default {
   // #############cart control ##########
   updateFoodCount({commit},{isAdd,food})
   {
+    console.log(isAdd)
+    console.log(food)
     if(isAdd){
       commit(INCREMENT_FOOD_COUNT,{food})
     }else
     {
       commit(DECREMENT_FOOD_COUNT,{food})
     }
+  },
+  clearCart({commit}){
+     commit(CLEAR_CART)
   }
+
 }

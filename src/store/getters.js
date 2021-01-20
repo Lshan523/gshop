@@ -9,16 +9,12 @@ export default {
   //################## profile state ########################
 
   //################## shop cart  state ########################
-  totalCount(state){
-    return  state.cartFoods.size
+  totalCount (state) {
+    return state.cartFoods.reduce((preTotal, food) => preTotal + food.count , 0)
   },
-  totalPrice(getter,state){
-     let totalPrice=0
-    Array.prototype.slice.call(state.cartFoods).forEach(f=>{
-      totalPrice+=f.count*(f.price)
-    })
 
-
+  totalPrice (state) {
+    return state.cartFoods.reduce((preTotal, food) => preTotal + food.count*food.price , 0)
   },
 
 }

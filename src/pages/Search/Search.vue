@@ -11,6 +11,29 @@
       <input type="search" name="search" placeholder="请输入商家或美食名称" class="search_input">
       <input type="submit" name="submit" class="search_submit">
     </form>
+
+
+ <!--   <section class="list" v-if="!noSearchShops">
+      <ul class="list_container">
+        &lt;!&ndash;:to="'/shop?id='+item.id"&ndash;&gt;
+        <router-link :to="{path:'/shop', query:{id:item.id}}" tag="li"
+                     v-for="item in searchShops" :key="item.id" class="list_li">
+          <section class="item_left">
+            <img :src="imgBaseUrl + item.image_path" class="restaurant_img">
+          </section>
+          <section class="item_right">
+            <div class="item_right_text">
+              <p>
+                <span>{{item.name}}</span>
+              </p>
+              <p>月售 {{item.month_sales||item.recent_order_num}} 单</p>
+              <p>{{item.delivery_fee||item.float_minimum_order_amount}} 元起送 / 距离{{item.distance}}</p>
+            </div>
+          </section>
+        </router-link>
+      </ul>
+    </section>
+    <div class="search_none" v-else>很抱歉！无搜索结果</div>-->
   </div>
 </template>
 

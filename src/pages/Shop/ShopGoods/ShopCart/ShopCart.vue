@@ -2,7 +2,7 @@
       <div>
         <div class="shopcart">
           <div class="content">
-            <div class="content-left" @click="toggleShow">
+            <div class="content-left" @click.stop="toggleShow">
               <div class="logo-wrapper">
                 <div class="logo" :class="{highlight: totalCount}">
                   <i class="iconfont icon-shopping_cart" :class="{highlight: totalCount}"></i>
@@ -13,6 +13,7 @@
               <div class="desc">另需配送费￥{{shopInfo.deliveryPrice}}元</div>
             </div>
             <div class="content-right">
+              <!-- payClass ='enough' : 'not-enough'-->
               <div class="pay" :class="payClass">
                 {{payText}}
               </div>
@@ -78,27 +79,29 @@
             }
           },
 
-          listShow () {
+          listShow ()
+          {
             // 如果总数量为0, 直接不显示
-            if(this.totalCount===0) {
+            if(this.totalCount===0)
+            {
               this.isShow = false
               return false
             }
-
-            if(this.isShow) {
+            if(this.isShow)
+            {
               this.$nextTick(() => {
                 // 实现BScroll的实例是一个单例
-                if(!this.scroll) {
+                if(!this.scroll)
+                {
                   this.scroll = new BScroll('.list-content', {
                     click: true
                   })
-                } else {
+                }
+                else {
                   this.scroll.refresh() // 让滚动条刷新一下: 重新统计内容的高度
                 }
-
               })
             }
-
             return this.isShow
           }
         },

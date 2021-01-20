@@ -9,6 +9,7 @@ import {
   RECEIVE_USER_INFO,
   INCREMENT_FOOD_COUNT,
   DECREMENT_FOOD_COUNT,
+  CLEAR_CART,
 } from './mutation-type'
 export default {
   //################## Msite state ########################
@@ -38,7 +39,9 @@ export default {
   //################## profile state ########################
 
   //################## Cart Control ########################
- [INCREMENT_FOOD_COUNT](state,{food}){
+ [INCREMENT_FOOD_COUNT](state,{food})
+ {
+   console.log("添加到购物车"+food.count)
     if(!food.count) //第一次添加
     {
       // food.count=1   //对于新加的属性(没有数据绑定)
@@ -47,22 +50,30 @@ export default {
        * Vue(对象,"属性名",属性值)
        */
       Vue.set(food,'count',1)
-    }else {
+      state.cartFoods.push(food)
+    }else
+    {
       food.count++
     }
-    state.cartFoods.push(food)
  },
 
- [DECREMENT_FOOD_COUNT](state,{food}){
-   if(food.count)
+ [DECREMENT_FOOD_COUNT](state,{food})
    {
-     food.count--
-     // state.cartFoods.push(food)
-   }else {
-     // state.cartFoods=state.cartFoods.filter(f=>f.count>0)
-   }
- },
-
+     if(food.count)//有值
+     {
+       food.count--
+       if(food.count===0){
+         const index=state.cartFoods.findIndex((f=>f.name==food.name))
+         state.cartFoods.splice(index,1)
+       }
+     }
+   },
+  [CLEAR_CART](state) {
+        //所以的数量值0
+    state.cartFoods.forEach(f=>{f.count=0})
+        //清空数组
+    state.cartFoods = []
+  },
   //################## login state ########################
   [RECEIVE_USER_INFO](state,{userInfo}){
     state.userInfo=userInfo

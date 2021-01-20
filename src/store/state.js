@@ -11,10 +11,10 @@ export default {
   //################## search state ########################
 
   //################## shop page ########################
- shopInfo:[],
- shopGoods:[],
- shopRatings:[],
-  cartFoods: [],
+   shopInfo:[],//商家信息
+   shopGoods:[],//商家商品列表
+   shopRatings:[],
+   cartFoods:[],//购物车中食物列表
 
   //################## profile state ########################
   //################## login state ########################
