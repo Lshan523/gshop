@@ -80,11 +80,12 @@ export default {
       commit(RECEIVE_SHOP_INFO,{info})
     }
    },
-  async  get_shop_ratings({commit}){
+  async  get_shop_ratings({commit},callback){
     const result=await  reqShopRatings()
     if(result.code==0){
       const ratings=result.data
       commit(RECEIVE_SHOP_RATINGS,{ratings})
+      callback &&callback()
     }
    },
   //################## login ##############################

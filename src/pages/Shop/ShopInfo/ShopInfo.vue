@@ -33,7 +33,7 @@
             <h3 class="section-title">商家实景</h3>
             <div class="pic-wrapper">
               <ul class="pic-list" ref="picsUl">
-                <li class="pic-item" v-for="(pic, index) in info.pics" :key="index">
+                <li class="pic-item" v-for="(pic, index) in shopInfo.pics" :key="index">
                   <img width="120" height="90" :src="pic"/>
                 </li>
               </ul>
@@ -88,7 +88,6 @@
             const space = 6
             const count = this.shopInfo.pics.length
             ul.style.width = (liWidth + space) * count -space + 'px'
-
             new BScroll('.pic-wrapper', {
               scrollX: true // 水平滑动
             })
@@ -96,7 +95,7 @@
         },
 
         watch: {
-          info () {// 刷新流程--> 更新数据
+          shopInfo () {// 刷新流程--> 更新数据
             this.$nextTick(() => {
               this._initScroll()
             })

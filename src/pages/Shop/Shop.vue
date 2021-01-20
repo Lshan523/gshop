@@ -28,7 +28,7 @@
     mounted () {
 
       this.$store.dispatch("get_shop_info")
-      this.$store.dispatch("get_shop_ratings")
+
     }
   }
 </script>

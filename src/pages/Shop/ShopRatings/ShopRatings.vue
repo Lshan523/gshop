@@ -3,24 +3,24 @@
         <div class="ratings-content">
           <div class="overview">
             <div class="overview-left">
-              <h1 class="score">{{info.score}}</h1>
+              <h1 class="score">{{shopInfo.score}}</h1>
               <div class="title">综合评分</div>
               <div class="rank">高于周边商家99%</div>
             </div>
             <div class="overview-right">
               <div class="score-wrapper">
                 <span class="title">服务态度</span>
-                <Star :score="info.serviceScore" :size="36" />
-                <span class="score">{{info.serviceScore}}</span>
+                <Star :score="shopInfo.serviceScore" :size="36" />
+                <span class="score">{{shopInfo.serviceScore}}</span>
               </div>
               <div class="score-wrapper">
                 <span class="title">商品评分</span>
-                <Star :score="info.foodScore" :size="36" />
-                <span class="score">{{info.foodScore}}</span>
+                <Star :score="shopInfo.foodScore" :size="36" />
+                <span class="score">{{shopInfo.foodScore}}</span>
               </div>
               <div class="delivery-wrapper">
                 <span class="title">送达时间</span>
-                <span class="delivery">{{info.deliveryTime}}分钟</span>
+                <span class="delivery">{{shopInfo.deliveryTime}}分钟</span>
               </div>
             </div>
           </div>
@@ -30,13 +30,13 @@
           <div class="ratingselect">
             <div class="rating-type border-1px">
           <span class="block positive" :class="{active: selectType===2}" @click="setSelectType(2)">
-            全部<span class="count">{{ratings.length}}</span>
+            全部<span class="count">{{shopRatings.length}}</span>
           </span>
               <span class="block positive" :class="{active: selectType===0}" @click="setSelectType(0)">
             满意<span class="count">{{positiveSize}}</span>
           </span>
               <span class="block negative" :class="{active: selectType===1}" @click="setSelectType(1)">
-            不满意<span class="count">{{ratings.length-positiveSize}}</span>
+            不满意<span class="count">{{shopRatings.length-positiveSize}}</span>
           </span>
             </div>
             <div class="switch" :class="{on: onlyShowText}" @click="toggleOnlyShowText">
@@ -86,7 +86,7 @@
           }
         },
         mounted () {
-          this.$store.dispatch('getShopRatings', () => {
+          this.$store.dispatch('get_shop_ratings', () => {
             this.$nextTick(() => {
               new BScroll(this.$refs.ratings, {
                 click: true
@@ -96,15 +96,15 @@
         },
 
         computed: {
-          ...mapState(['info', 'ratings']),
+          ...mapState(['shopInfo', 'shopRatings']),
           ...mapGetters(['positiveSize']),
 
           filterRatings () {
             // 得到相关的数据
-            const {ratings, onlyShowText, selectType} = this
+            const {shopRatings, onlyShowText, selectType} = this
 
             // 产生一个过滤新数组
-            return ratings.filter(rating => {
+            return shopRatings.filter(rating => {
               const {rateType, text} = rating
               /*
                 条件1:

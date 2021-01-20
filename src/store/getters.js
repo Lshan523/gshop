@@ -17,4 +17,7 @@ export default {
     return state.cartFoods.reduce((preTotal, food) => preTotal + food.count*food.price , 0)
   },
 
+  positiveSize(state){
+    return state.shopRatings.filter(rt=>rt.rateType==0).length
+  }
 }
