@@ -10,6 +10,7 @@ import {
   INCREMENT_FOOD_COUNT,
   DECREMENT_FOOD_COUNT,
   CLEAR_CART,
+  RECEIVE_SEARCH_SHOPS
 } from './mutation-type'
 export default {
   //################## Msite state ########################
@@ -35,9 +36,10 @@ export default {
   [RECEIVE_SHOP_RATINGS](state,{ratings}){
     state.shopRatings=ratings;
   },
-
-  //################## profile state ########################
-
+  //################## Search state ########################
+  [RECEIVE_SEARCH_SHOPS](state,{searchShops}){
+     state.searchShops=searchShops
+  },
   //################## Cart Control ########################
  [INCREMENT_FOOD_COUNT](state,{food})
  {

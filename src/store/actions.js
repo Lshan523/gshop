@@ -11,6 +11,7 @@ import {
   RECEIVE_SHOP_INFO,
   RECEIVE_SHOP_RATINGS, INCREMENT_FOOD_COUNT, DECREMENT_FOOD_COUNT,
   CLEAR_CART,
+  RECEIVE_SEARCH_SHOPS
 } from './mutation-type'
 import  {
   reqShopGoods,
@@ -24,7 +25,8 @@ import  {
   reqValidCode,
   reqSmsLogin,
   reqUserInfo,
-  reqLogout
+  reqLogout,
+  reqSearchShop
 } from  '../api'
 export default {
   //################## Msite state ########################
@@ -62,6 +64,17 @@ export default {
   },
 
   //################## search state ########################
+
+  async doSearchShops({commit,state},keyword){
+    const {longitude,latitude}=state
+    const geohash=latitude+','+longitude;
+    const result= await reqSearchShop(geohash,keyword)
+    if(result.code===0){
+      const searchShops = result.data
+      commit(RECEIVE_SEARCH_SHOPS,{searchShops})
+    }
+  },
+
   //################## profile state ########################
   //################## shop page  ########################
   async  get_shop_goods({commit},callback){

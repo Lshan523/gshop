@@ -9,7 +9,7 @@ export default {
    categorys:[],//食品分类数组
    shops:[],//商家的数组
   //################## search state ########################
-
+   searchShops:[],
   //################## shop page ########################
    shopInfo:[],//商家信息
    shopGoods:[],//商家商品列表

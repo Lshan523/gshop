@@ -1,15 +1,17 @@
 import  VueRouter from 'vue-router'
 import Vue from "vue"
 
-import Order from '../pages/Order/Order'
-import Search from '../pages/Search/Search'
-import Profile from '../pages/Profile/Profile'
-import Msite from '../pages/Msite/Msite'
 import Login from '../pages/Login/Login'
 import Shop from '../pages/Shop/Shop'
 import ShopGoods from '../pages/Shop/ShopGoods/ShopGoods'
 import ShopInfo from '../pages/Shop/ShopInfo/ShopInfo'
 import ShopRatings from '../pages/Shop/ShopRatings/ShopRatings'
+
+
+const Order =()=>import('../pages/Order/Order')
+const Search=()=>import('../pages/Search/Search')
+const Profile=()=>  import('../pages/Profile/Profile')
+const Msite =()=>import('../pages/Msite/Msite')
 Vue.use(VueRouter)
 
 export  default  new VueRouter({
@@ -21,7 +23,7 @@ export  default  new VueRouter({
    },
    {
      path:"/msite",
-     component:Msite,
+     component:Msite,  //返回路由组件函数 ,只有执行此函数才会加载
      meta:{
        showFooter:true
      }
