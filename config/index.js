@@ -5,8 +5,8 @@
 const path = require('path')
 
 module.exports = {
+  publicPath:'./',//需要配置，否则打包APK,安装在手机上出现白屏
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
